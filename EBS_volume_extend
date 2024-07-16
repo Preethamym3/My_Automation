@@ -83,7 +83,7 @@ tmpfs          tmpfs   96M   12K   96M   1% /run/user/1000
 ==============EBS volume extend without downtime(via AWS Cli)==================
 instance- Docker
 
-aws ec2 modify-volume --size 10 --volume-id vol-039149b8454db189b
+==>aws ec2 modify-volume --size 10 --volume-id vol-039149b8454db189b
 
 {
     "VolumeModification": {
@@ -104,5 +104,38 @@ aws ec2 modify-volume --size 10 --volume-id vol-039149b8454db189b
 }
 }
 
+==>aws ec2 describe-volumes-modifications --volume-id vol-039149b8454db189b
+
+{
+    "VolumesModifications": [
+        {
+            "VolumeId": "vol-039149b8454db189b",
+            "ModificationState": "completed",
+            "TargetSize": 10,
+            "TargetIops": 3000,
+            "TargetVolumeType": "gp3",
+            "TargetThroughput": 125,
+            "TargetMultiAttachEnabled": false,
+            "OriginalSize": 8,
+            "OriginalIops": 3000,
+            "OriginalVolumeType": "gp3",
+            "OriginalThroughput": 125,
+            "OriginalMultiAttachEnabled": false,
+            "Progress": 100,
+            "StartTime": "2024-07-16T10:40:03+00:00",
+            "EndTime": "2024-07-16T11:05:30+00:00"
+        }
+    ]
+}
+
+
+ssm==>systems manager agent (ssm should be configured in instance to do this)
+==>aws ssm send-command \
+    --document-name "AWS-RunShellScript" \
+    --targets '[{"Key":"InstanceIds","Values":["i-0b1e0f02b706a116c"]}]' \
+    --parameters '{"commands":["#!/bin/bash","yum -y update","sudo lsblk","sudo growpart /dev/xvda 1","sudo lsblk","df -hT","sudo resize2fs /dev/root","df -hT"]}'
+
+
+An error occurred (InvalidInstanceId) when calling the SendCommand operation: Instances [[i-0b1e0f02b706a116c]] not in a valid state for account 533267058281
 
 
