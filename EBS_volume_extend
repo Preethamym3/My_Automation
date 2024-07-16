@@ -1,6 +1,6 @@
 ==============EBS volume extend without downtime(via gui and Linux terminal)==================
 
-==>documentation follwed--> https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html
+==>documentation follwed (xen based)--> https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html
 ==> created  instance
 ==> logged in
 
