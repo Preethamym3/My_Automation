@@ -1,0 +1,85 @@
+==============EBS volume extend without downtime(via gui and Linux terminal)==================
+
+==>documentation follwed--> https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html
+==> created  instance
+==> logged in
+
+==> ubuntu@ip-172-31-38-215:~$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       6.8G  1.6G  5.2G  23% /
+tmpfs           479M     0  479M   0% /dev/shm
+tmpfs           192M  868K  191M   1% /run
+tmpfs           5.0M     0  5.0M   0% /run/lock
+/dev/xvda16     881M   76M  744M  10% /boot
+/dev/xvda15     105M  6.1M   99M   6% /boot/efi
+tmpfs            96M   12K   96M   1% /run/user/1000
+
+-------------------
+
+==> vol-01db84076e6c59eb7(volume id)-->under instance settings -> storage -> volume -> modify -> 8 to 10 gb increased
+
+
+==> ubuntu@ip-172-31-38-215:~$ sudo lsblk
+NAME     MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+loop0      7:0    0 25.2M  1 loop /snap/amazon-ssm-agent/7993
+loop1      7:1    0 55.7M  1 loop /snap/core18/2829
+loop2      7:2    0 38.8M  1 loop /snap/snapd/21759
+xvda     202:0    0   10G  0 disk
+├─xvda1  202:1    0    7G  0 part /
+├─xvda14 202:14   0    4M  0 part
+├─xvda15 202:15   0  106M  0 part /boot/efi
+└─xvda16 259:0    0  913M  0 part /boot
+
+==> partition size is smaller than the volume size,(xvda1 < xvda )
+
+==> ubuntu@ip-172-31-38-215:~$ sudo growpart /dev/xvda 1
+CHANGED: partition=1 start=2099200 old: size=14677983 end=16777182 new: size=18872287 end=20971486
+
+==> ubuntu@ip-172-31-38-215:~$ sudo lsblk
+NAME     MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+loop0      7:0    0 25.2M  1 loop /snap/amazon-ssm-agent/7993
+loop1      7:1    0 55.7M  1 loop /snap/core18/2829
+loop2      7:2    0 38.8M  1 loop /snap/snapd/21759
+xvda     202:0    0   10G  0 disk
+├─xvda1  202:1    0    9G  0 part /
+├─xvda14 202:14   0    4M  0 part
+├─xvda15 202:15   0  106M  0 part /boot/efi
+└─xvda16 259:0    0  913M  0 part /boot
+
+==>out of 10 GB 9gb is xvda1 partition and other partion is xvda14/15/16 is 1gb
+
+==>Extend the file system
+==>ubuntu@ip-172-31-38-215:~$ df -hT
+Filesystem     Type   Size  Used Avail Use% Mounted on
+/dev/root      ext4   6.8G  1.6G  5.2G  23% /
+tmpfs          tmpfs  479M     0  479M   0% /dev/shm
+tmpfs          tmpfs  192M  884K  191M   1% /run
+tmpfs          tmpfs  5.0M     0  5.0M   0% /run/lock
+/dev/xvda16    ext4   881M   76M  744M  10% /boot
+/dev/xvda15    vfat   105M  6.1M   99M   6% /boot/efi
+tmpfs          tmpfs   96M   12K   96M   1% /run/user/1000
+
+==>ext4 is he filesystem type and mount point is /
+
+==>sudo ext4_growfs -d /  --> for xfs filesystem
+==>sudo resize2fs / --> ext4 filesystem
+
+==>ubuntu@ip-172-31-38-215:~$ sudo resize2fs /dev/root
+resize2fs 1.47.0 (5-Feb-2023)
+Filesystem at /dev/root is mounted on /; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 2
+The filesystem on /dev/root is now 2359035 (4k) blocks long.
+
+==>ubuntu@ip-172-31-38-215:~$ df -hT
+Filesystem     Type   Size  Used Avail Use% Mounted on
+/dev/root      ext4   8.7G  1.6G  7.1G  18% /
+tmpfs          tmpfs  479M     0  479M   0% /dev/shm
+tmpfs          tmpfs  192M  884K  191M   1% /run
+tmpfs          tmpfs  5.0M     0  5.0M   0% /run/lock
+/dev/xvda16    ext4   881M   76M  744M  10% /boot
+/dev/xvda15    vfat   105M  6.1M   99M   6% /boot/efi
+tmpfs          tmpfs   96M   12K   96M   1% /run/user/1000
+
+
+
+
