@@ -1,5 +1,5 @@
 ==============EBS volume extend without downtime(via gui and Linux terminal)==================
-
+instance- EBS-test
 ==>documentation follwed (xen based)--> https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html
 ==> created  instance
 ==> logged in
@@ -80,6 +80,29 @@ tmpfs          tmpfs  5.0M     0  5.0M   0% /run/lock
 /dev/xvda15    vfat   105M  6.1M   99M   6% /boot/efi
 tmpfs          tmpfs   96M   12K   96M   1% /run/user/1000
 
+==============EBS volume extend without downtime(via AWS Cli)==================
+instance- Docker
+
+aws ec2 modify-volume --size 10 --volume-id vol-039149b8454db189b
+
+{
+    "VolumeModification": {
+        "VolumeId": "vol-039149b8454db189b",
+        "ModificationState": "modifying",
+        "TargetSize": 10,
+        "TargetIops": 3000,
+        "TargetVolumeType": "gp3",
+        "TargetThroughput": 125,
+        "TargetMultiAttachEnabled": false,
+        "OriginalSize": 8,
+        "OriginalIops": 3000,
+        "OriginalVolumeType": "gp3",
+        "OriginalThroughput": 125,
+        "OriginalMultiAttachEnabled": false,
+        "Progress": 0,
+        "StartTime": "2024-07-16T10:40:03+00:00"
+}
+}
 
 
 
