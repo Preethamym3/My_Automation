@@ -39,7 +39,7 @@ EOF
     echo -e "\n   USE BELLOW TOKEN TO LOGIN K8S_DASHBOARD\n"
     kubectl describe secret -n kubernetes-dashboard kubernetes-dashboard-token | grep -i 'token:      ' | awk -F 'token:      ' '{print $NF}'
 elif [[ "$1" == 'remove' ]]; then 
-    kubectl delete -f https://raw.githubusercontent.com/jaintpharsha/Devops-ITD-May-2023/main/Kubernetes/Dashboard/kubernete-dashboard.yml
+    kubectl delete -f https://raw.githubusercontent.com/Preethamym3/My_Automation/main/k8s_dashboard.yml
     [[ -d "$HOME/certs" ]] && rm -rf "$HOME/certs"
 else 
     echo "Unknown option $1"
