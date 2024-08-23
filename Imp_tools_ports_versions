@@ -1,0 +1,80 @@
+==============ports=================
+
+ftp-21
+sftp-22
+ssh-22
+smtp-25  Simple Mail Transfer Protocol
+DNS-53
+http-80
+https-443
+nginx-80/443
+docker-Port 2375 (unencrypted) / Port 2376 (encrypted)
+Grafana — Port 3000
+Mysql-3306
+rdp-3389
+sonarqube-Port 9000 (Web Interface) / Port 9001 (Compute Engine)
+Jenkins — Port 8080 (Web Interface) / Port 50000 (Jenkins Agent)
+
+================tools and competitiors tools=====================
+
+k8s by google(now maintained by cncf cloud native computing foundation) (opensource)
+competitior: openshift by redhat, docker swarm from docker, messos from apache
+
+Docker by docker (opensource)
+competitors:podman,lxc,rancher desktop,k8s,openshift
+
+Ansible by redhat(opensource)
+competitors:chef,puppet,terraform
+
+Terraform by hashicorp (opensource)
+competitors: opentofu, pulumi, ansible, arm azure templates, cloud formation,google deployment manager, crossplane
+ 
+
+Jenkins by Hudson , now maintained by oracle, cloud bees and aws others(opensource)
+competitors:GitLab CI, Circle CI, AWS Codepipeline, Azure devops, spacelif,  github actions, codeship, teamcity
+
+git maintained by Linux foundation(open source)
+competitors: Subeversion(svn), cvs,mercurial,
+
+GitHub by Microsoft (opensource)
+competitors:Bitbucket,GitLab,codeberg,gogs,aws code commit
+
+
+Helm by CNCF (opensource)
+competitors:kustomize,kubestack
+
+ArgoCD by intuit
+competitors:HarnessCD, octopus deploy
+
+Maven by Apache(opensource)
+Competitiors: Gradle,packagecloud,GCC,Grunt,Gulp
+
+Tomcat by Apache(opensource)
+Competitiors:nginx,wildfly, jboss,Mangoose, IBM webshpere
+
+SonarQube by sonarsource
+competitiors: GitLab,veracode,sonarlint,checkmakx
+
+=================versions=================
+
+Linux -Ubuntu – 20.04
+Git – 2.39.1
+Jenkins – 2.346.4.1
+Docker – 23.0.6
+Kubernetes – 1.28.7
+Ansible – 2.10
+Tomcat – 10.0.16
+Terraform – 1.3.9
+Helm - 3.11.0
+Maven - 3.8.8
+SonarQube - 10.3
+
+
+
+
+
+
+
+
+
+
